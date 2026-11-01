@@ -1,0 +1,29 @@
+GV-3901 — HML r18 — Diagnóstico de cadastro (sem alterar banco)
+
+CONTEÚDO PARA GITHUB:
+1) index.html -> raiz do repositório (substituir)
+2) sw.js -> raiz do repositório (substituir)
+3) assets/atividade-diagnostico-r18.js -> pasta assets (ADICIONAR)
+
+ATENÇÃO: Não apague os demais arquivos existentes. O ZIP tem apenas arquivos a alterar.
+O aplicativo principal assets/app.js, a base V1.2 congelada, o banco Supabase,
+e as regras RLS são preservados. O r17 permanece no repositório, mas deixa de ser referenciado.
+
+TESTE CONTROLADO:
+1. Depois de publicar, abra o site em uma aba anônima e faça login como administrador.
+2. Em Planejamento, confira o aviso "Diagnóstico r18 ativo".
+3. Abra + Atividade e confira o aviso "Diagnóstico r18 carregado no cadastro".
+4. Para teste de validação, clique Salvar com campos ainda vazios: a mensagem
+   deve apontar o campo inválido sem realizar qualquer gravação.
+5. Em outro teste, preencha todos os campos COM DADOS FICTÍCIOS e clique Salvar uma vez.
+6. A tarja no topo da tela apresenta o estágio da operação e o erro, se ocorrer.
+7. Após qualquer indicação de sucesso, use a consulta SQL abaixo para confirmar.
+
+SQL LEITURA:
+SELECT version,last_action,updated_at,
+  jsonb_array_length(COALESCE(state->'activities','[]'::jsonb)) AS atividades
+FROM public.gv3901_workspace WHERE code='GV3901';
+
+IMPORTANTE: Este patch é de DIAGNÓSTICO, não altera diretamente a lógica de salvamento.
+Não conclua que uma atividade foi gravada sem conferir no Supabase.
+Não aprove a B0 com planejamento incompleto.
