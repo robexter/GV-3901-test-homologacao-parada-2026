@@ -34,8 +34,14 @@ window.setTimeout(function () {
 <script defer src="./assets/membros-config.js?v=gv3901-membros-r13"></script>
 <script defer src="./assets/membros-acesso.js?v=gv3901-membros-r13"></script>
 <script defer src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&amp;onload=gv3901TurnstileReady"></script>
-<!-- Homologação r20: fluxo próprio, observável, para cadastrar atividades no Supabase. -->
-<script defer src="./assets/cadastro-atividades-r20.js?v=gv3901-cadastro-r20"></script>
-<script defer src="./assets/app.js?v=gv3901-cadastro-r20"></script>
+<!-- Proteção adicional da homologação: nunca enviar atividade como GET na URL. -->
+<script>
+document.addEventListener('submit', function(event) {
+  if (event.target && event.target.id === 'gv-r21-cadastro') event.preventDefault();
+}, true);
+</script>
+<!-- Homologação r21: critério de medição, preservando fluxo r20 validado. -->
+<script defer src="./assets/cadastro-atividades-r21.js?v=gv3901-cadastro-r21-1"></script>
+<script defer src="./assets/app.js?v=gv3901-cadastro-r21-1"></script>
 </body>
 </html>
